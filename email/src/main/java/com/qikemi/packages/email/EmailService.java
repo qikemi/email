@@ -1,8 +1,12 @@
 package com.qikemi.packages.email;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -17,6 +21,7 @@ import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
 
+import com.qikemi.packages.email.bean.AttachFileBean;
 import com.qikemi.packages.email.bean.MailBean;
 import com.qikemi.packages.email.bean.MailServiceBean;
 
@@ -48,7 +53,7 @@ public class EmailService {
 			// 如果身份认证，则创建密码验证 
 			authenticator = new MyAuthenticator(mailServiceBean.getMailServerUserName(), mailServiceBean.getMailServerPwd());
 		}
-		// 根据邮件会话属和密码验证器构发邮件的session
+		// 根据邮件会话属和密码验证器构发邮件的session 
 		Session sendMailSession = Session.getDefaultInstance(pro, authenticator);
 		try {
 			// 根据session创建邮件消息
@@ -66,9 +71,36 @@ public class EmailService {
 			mailMessage.setSentDate(new Date());
 			// 设置邮件消息的主要内
 			String mailContent = mailBean.getContent();
-			mailMessage.setText(mailContent);
-			// 发邮件
-			Transport.send(mailMessage);
+			
+			// 向multipart对象中添加邮件:1. 文本 2. 附件
+            Multipart multipart = new MimeMultipart();   
+            // 1. 设置邮件的文本内容
+            BodyPart contentPart = new MimeBodyPart();
+            contentPart.setText(mailContent);
+            multipart.addBodyPart(contentPart);
+            if(null != mailBean.getAttachFileList() && mailBean.getAttachFileList().size() > 0){
+	            // 2. 添加附件 -- 遍历附件
+	            for(AttachFileBean fileBean : mailBean.getAttachFileList()){
+	            	try{
+			            BodyPart messageBodyPart= new MimeBodyPart();
+			            // File
+			            File attachFile = new File(fileBean.getFilePath());
+			            DataSource source = new FileDataSource(attachFile);
+			            // 添加附件的内容
+			            messageBodyPart.setDataHandler(new DataHandler(source));
+			            messageBodyPart.setFileName(new String(fileBean.getFileName().getBytes("gb2312"), "ISO8859-1"));
+			            multipart.addBodyPart(messageBodyPart);
+	            	}catch (Exception e){
+	            		logger.error("SKIP add attach File -> filePath: [" + fileBean.getFilePath() + "], fileName: [" + fileBean.getFileName() + "]. Exception: " + e.getMessage());
+	            	}
+	            }
+            }
+            // 保存邮件主题 
+            mailMessage.setContent(multipart);
+            // 保存改变 
+            mailMessage.saveChanges();
+            // 发送邮件
+            Transport.send(mailMessage, mailMessage.getAllRecipients());
 			return true;
 		} catch (MessagingException ex) {
 //			ex.printStackTrace();
@@ -113,16 +145,35 @@ public class EmailService {
 			// 设置邮件消息发的时
 			mailMessage.setSentDate(new Date());
 			// MiniMultipart类是容器类，包含MimeBodyPart类型的对
-			Multipart mainPart = new MimeMultipart();
-			// 创建包含HTML内容的MimeBodyPart
-			BodyPart html = new MimeBodyPart();
-			// 设置HTML内容
-			html.setContent(mailBean.getContent(), "text/html; charset=utf-8");
-			mainPart.addBodyPart(html);
-			// 将MiniMultipart对象设置为邮件内
-			mailMessage.setContent(mainPart);
-			// 发邮件
-			Transport.send(mailMessage);
+			// 向multipart对象中添加邮件:1. 文本 2. 附件
+            Multipart multipart = new MimeMultipart();   
+            // 1. 设置邮件的文本内容
+            BodyPart contentPart = new MimeBodyPart();
+            contentPart.setContent(mailBean.getContent(), "text/html; charset=utf-8");
+            multipart.addBodyPart(contentPart);
+            if(null != mailBean.getAttachFileList() && mailBean.getAttachFileList().size() > 0){
+	            // 2. 添加附件 -- 遍历附件
+	            for(AttachFileBean fileBean : mailBean.getAttachFileList()){
+	            	try{
+			            BodyPart messageBodyPart= new MimeBodyPart();
+			            // File
+			            File attachFile = new File(fileBean.getFilePath());
+			            DataSource source = new FileDataSource(attachFile);
+			            // 添加附件的内容
+			            messageBodyPart.setDataHandler(new DataHandler(source));
+			            messageBodyPart.setFileName(new String(fileBean.getFileName().getBytes("gb2312"), "ISO8859-1"));
+			            multipart.addBodyPart(messageBodyPart);
+	            	}catch (Exception e){
+	            		logger.error("SKIP add attach File -> filePath: [" + fileBean.getFilePath() + "], fileName: [" + fileBean.getFileName() + "]. Exception: " + e.getMessage());
+	            	}
+	            }
+            }
+            // 保存邮件主题 
+            mailMessage.setContent(multipart);
+            // 保存改变 
+            mailMessage.saveChanges();
+            // 发送邮件
+            Transport.send(mailMessage, mailMessage.getAllRecipients());
 			return true;
 		} catch (MessagingException ex) {
 //			ex.printStackTrace();
