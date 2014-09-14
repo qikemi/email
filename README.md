@@ -3,6 +3,8 @@ Email Sender
 
 Create by xiexianbin, Package For Email Sender.
 
+Home page: http://qikemi.github.io/email/
+
 Demo
 ====
 
