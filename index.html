@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Email Sender by qikemi</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Email Sender</h1>
+          <h2>Create by xiexianbin, Package For Email.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/qikemi/email/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/qikemi/email/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/qikemi/email" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="email-sender" class="anchor" href="#email-sender"><span class="octicon octicon-link"></span></a>Email Sender</h1>
+
+<p>Create by xiexianbin, Package For Email Sender.</p>
+
+<h1>
+<a name="demo" class="anchor" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h1>
+
+<p>Send Text Mail 1.</p>
+
+<pre><code>    @Test
+    public void sendTextMail1(){
+        MailBean mailBean = new MailBean("xianbinxie@163.com", "测试邮件主题", "测试邮件内容");
+        EmailSender.sendTextMail(mailBean);
+    }
+</code></pre>
+
+<p>Send Text Mail 2.</p>
+
+<pre><code>    @Test
+    public void sendTextMail2(){
+        MailServiceBean mailServiceBean = new MailServiceBean("smtp.qq.com", "hixxb@qq.com", "123456");
+        MailBean mailBean = new MailBean("xianbinxie@163.com", "测试邮件主题", "测试邮件内容");
+        EmailSender.sendTextMail(mailServiceBean, mailBean);
+    }
+</code></pre>
+
+<p>Send Text Mail 3.</p>
+
+<pre><code>    @Test
+    public void sendTextMail3(){
+        MailServiceBean mailServiceBean = new MailServiceBean("smtp.qq.com", "25", "hixxb@qq.com", "123456");
+        MailBean mailBean = new MailBean("xianbinxie@163.com", "测试邮件主题", "测试邮件内容");
+        EmailSender.sendTextMail(mailServiceBean, mailBean);
+    }
+</code></pre>
+
+<p>Send Text Mail With Attach File 4.</p>
+
+<pre><code>    @Test
+    public void sendTextMail4(){
+        List&lt;AttachFileBean&gt; fileBeans = new ArrayList&lt;AttachFileBean&gt;();
+        fileBeans.add(new AttachFileBean("真实性核验单.png", "H:\\真实性核验单.png"));
+        MailServiceBean mailServiceBean = new MailServiceBean("smtp.163.com", "25", "xianbinxie@163.com", "WRDwrd3");
+        MailBean mailBean = new MailBean("hixxb@qq.com", "测试邮件主题", "测试邮件附件", fileBeans);
+        EmailSender.sendTextMail(mailServiceBean, mailBean);
+    }
+</code></pre>
+
+<p>Send Html Mail 1.</p>
+
+<pre><code>    @Test
+    public void sendHtmlMail1(){
+        MailBean mailBean = new MailBean("xianbinxie@163.com", "测试邮件主题", "&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;style&gt;body{color: red;}&lt;/style&gt;&lt;body&gt;测试邮件内容&lt;body&gt;&lt;/html&gt;");
+        EmailSender.sendHtmlMail(mailBean);
+    }
+</code></pre>
+
+<p>Send Html Mail 2.</p>
+
+<pre><code>    @Test
+    public void sendHtmlMail2(){
+        MailServiceBean mailServiceBean = new MailServiceBean("smtp.qq.com", "hixxb@qq.com", "123456");
+        MailBean mailBean = new MailBean("xianbinxie@163.com", "测试邮件主题", "&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;style&gt;body{color: red;}&lt;/style&gt;&lt;body&gt;测试邮件内容&lt;body&gt;&lt;/html&gt;");
+        EmailSender.sendHtmlMail(mailServiceBean, mailBean);
+    }
+</code></pre>
+
+<p>Send Html Mail 3.</p>
+
+<pre><code>    @Test
+    public void sendHtmlMail3(){
+        MailServiceBean mailServiceBean = new MailServiceBean("smtp.qq.com", "25", "hixxb@qq.com", "123456");
+        MailBean mailBean = new MailBean("xianbinxie@163.com", "测试邮件主题", "&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;style&gt;body{color: red;}&lt;/style&gt;&lt;body&gt;测试邮件内容&lt;body&gt;&lt;/html&gt;");
+        EmailSender.sendHtmlMail(mailServiceBean, mailBean);
+    }
+</code></pre>
+
+<p>Send Html Mail With Attach File 4.</p>
+
+<pre><code>    @Test
+    public void sendHtmlMail4(){
+        List&lt;AttachFileBean&gt; fileBeans = new ArrayList&lt;AttachFileBean&gt;();
+        fileBeans.add(new AttachFileBean("真实性核验单.png", "H:\\真实性核验单.png"));
+        fileBeans.add(new AttachFileBean("email-0.0.1-SNAPSHOT.jar", "H:\\email-0.0.1-SNAPSHOT.jar"));
+        MailServiceBean mailServiceBean = new MailServiceBean("smtp.163.com", "25", "xianbinxie@163.com", "123456");
+        MailBean mailBean = new MailBean("hixxb@qq.com", "测试邮件主题", "&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;style&gt;body{color: red;}&lt;/style&gt;&lt;body&gt;测试邮件内容&lt;body&gt;&lt;/html&gt;", fileBeans);
+        EmailSender.sendHtmlMail(mailServiceBean, mailBean);
+    }
+</code></pre>
+        </section>
+
+        <footer>
+          Email Sender is maintained by <a href="https://github.com/qikemi">qikemi</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
