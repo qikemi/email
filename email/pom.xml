@@ -4,7 +4,6 @@
 
 	<groupId>com.qikemi</groupId>
 	<artifactId>email</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>email</name>
 	<description>Create by xiexianbin, Package For Email.</description>
@@ -122,4 +121,5 @@
 		</plugins>
 	</build>
 
+	<version>1.0.0</version>
 </project>
