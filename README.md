@@ -43,7 +43,7 @@ Send Text Mail With Attach File 4.
 	public void sendTextMail4(){
 		List<AttachFileBean> fileBeans = new ArrayList<AttachFileBean>();
 		fileBeans.add(new AttachFileBean("真实性核验单.png", "H:\\真实性核验单.png"));
-		MailServiceBean mailServiceBean = new MailServiceBean("smtp.163.com", "25", "xianbinxie@163.com", "WRDwrd3");
+		MailServiceBean mailServiceBean = new MailServiceBean("smtp.163.com", "25", "xianbinxie@163.com", "123456");
 		MailBean mailBean = new MailBean("hixxb@qq.com", "测试邮件主题", "测试邮件附件", fileBeans);
 		EmailSender.sendTextMail(mailServiceBean, mailBean);
 	}
