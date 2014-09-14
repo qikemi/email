@@ -1,5 +1,7 @@
 package com.qikemi.packages.email.bean;
 
+import java.util.List;
+
 /**
  * E-mail bean
  * 
@@ -21,7 +23,7 @@ public class MailBean {
 	// 邮件的文本内容
 	private String content;
 	// 邮件附件的文件名
-	private String[] attachFileNames;
+	private List<AttachFileBean> attachFileList;
 	
 	// default 
 	public MailBean() {}
@@ -34,24 +36,33 @@ public class MailBean {
 		this.content = content;
 	}
 	
-	public MailBean(String toAddress, String subject, String content,
-			String[] attachFileNames) {
-		super();
-		this.toAddress = toAddress;
-		this.subject = subject;
-		this.content = content;
-		this.attachFileNames = attachFileNames;
-	}
-	
-	// full
-	public MailBean(boolean validate, String toAddress,
-			String subject, String content, String[] attachFileNames) {
+	public MailBean(boolean validate, String toAddress, String subject,
+			String content) {
 		super();
 		this.validate = validate;
 		this.toAddress = toAddress;
 		this.subject = subject;
 		this.content = content;
-		this.attachFileNames = attachFileNames;
+	}
+	
+	public MailBean(String toAddress, String subject,
+			String content, List<AttachFileBean> attachFileList) {
+		super();
+		this.toAddress = toAddress;
+		this.subject = subject;
+		this.content = content;
+		this.attachFileList = attachFileList;
+	}
+
+	// full
+	public MailBean(boolean validate, String toAddress, String subject,
+			String content, List<AttachFileBean> attachFileList) {
+		super();
+		this.validate = validate;
+		this.toAddress = toAddress;
+		this.subject = subject;
+		this.content = content;
+		this.attachFileList = attachFileList;
 	}
 
 	public boolean isValidate() {
@@ -86,12 +97,12 @@ public class MailBean {
 		this.content = content;
 	}
 
-	public String[] getAttachFileNames() {
-		return attachFileNames;
+	public List<AttachFileBean> getAttachFileList() {
+		return attachFileList;
 	}
 
-	public void setAttachFileNames(String[] attachFileNames) {
-		this.attachFileNames = attachFileNames;
+	public void setAttachFileList(List<AttachFileBean> attachFileList) {
+		this.attachFileList = attachFileList;
 	}
 
 }
