@@ -7,13 +7,13 @@ Demo
 ====
 
 Send Text Mail 1.
-···
+```
 	@Test
 	public void sendTextMail1(){
 		MailBean mailBean = new MailBean("xianbinxie@163.com", "测试邮件主题", "测试邮件内容");
 		EmailSender.sendTextMail(mailBean);
 	}
-···
+```
 
 Send Text Mail 2.
 ```	
