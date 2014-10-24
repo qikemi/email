@@ -1,6 +1,7 @@
 package com.qikemi.packages.email;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -18,6 +19,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 import org.apache.log4j.Logger;
 
@@ -66,7 +68,7 @@ public class EmailService {
 			Address to = new InternetAddress(mailBean.getToAddress());
 			mailMessage.setRecipient(Message.RecipientType.TO, to);
 			// 设置邮件消息的主
-			mailMessage.setSubject(mailBean.getSubject());
+			mailMessage.setSubject(MimeUtility.encodeText(mailBean.getSubject(), "UTF-8", "B"));
 			// 设置邮件消息发的时
 			mailMessage.setSentDate(new Date());
 			// 设置邮件消息的主要内
@@ -105,6 +107,8 @@ public class EmailService {
 		} catch (MessagingException ex) {
 //			ex.printStackTrace();
 			logger.error("MessagingException -> " + ex.getMessage());
+		} catch (UnsupportedEncodingException e1) {
+			logger.error("UnsupportedEncodingException -> " + e1.getMessage());
 		}
 		return false;
 	}
@@ -141,7 +145,7 @@ public class EmailService {
 			// Message.RecipientType.TO属表示接收者的类型为TO
 			mailMessage.setRecipient(Message.RecipientType.TO, to);
 			// 设置邮件消息的主
-			mailMessage.setSubject(mailBean.getSubject());
+			mailMessage.setSubject(MimeUtility.encodeText(mailBean.getSubject(), "UTF-8", "B"));
 			// 设置邮件消息发的时
 			mailMessage.setSentDate(new Date());
 			// MiniMultipart类是容器类，包含MimeBodyPart类型的对
@@ -178,6 +182,8 @@ public class EmailService {
 		} catch (MessagingException ex) {
 //			ex.printStackTrace();
 			logger.error("MessagingException -> " + ex.getMessage());
+		} catch (UnsupportedEncodingException e1) {
+			logger.error("UnsupportedEncodingException -> " + e1.getMessage());
 		}
 		return false;
 	}
